@@ -41,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditEmpDetails", new { id=item.Empid }) |
+            @Html.ActionLink("Edit", "EditEmpDetails", new { id = item.Empid },new { @class = "btn btn-primary" }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
