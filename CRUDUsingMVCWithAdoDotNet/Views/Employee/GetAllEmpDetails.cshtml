@@ -1,51 +1,60 @@
-﻿@model IEnumerable<CRUDUsingMVCWithAdoDotNet.Models.EmpModel>
+﻿@model IPagedList<CRUDUsingMVCWithAdoDotNet.Models.EmpModel>
 
 @{
     ViewBag.Title = "GetAllEmpDetails";
 }
+
+@using PagedList.Mvc;
+@using PagedList;
+
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <h2>Employee Information</h2>
 
 <p>
-    @Html.ActionLink("Create New", "AddEmployee",null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Create New", "AddEmployee", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
+<table class="table table-striped table" >
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Empid)
+            @Html.DisplayNameFor(model => model.First().Empid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.First().Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.First().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.First().Address)
         </th>
-        <th></th>
+        <th>
+            Actions
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "EditEmpDetails", new { id = item.Empid },new { @class = "btn btn-primary" }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditEmpDetails", new { id = item.Empid }, new { @class = "btn btn-primary" }) |
+
+                @Html.ActionLink("Delete", "DeleteEmp", new { id = item.Empid }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you wish to delete this record?');" })
+
+            </td>
+        </tr>
+    }
 
 </table>
+@Html.PagedListPager(Model,i=>Url.Action("GetAllEmpDetails", "Employee",new {i,search=Request.QueryString["search"]}))

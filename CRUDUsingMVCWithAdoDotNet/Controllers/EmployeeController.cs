@@ -5,18 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 
 namespace CRUDUsingMVCWithAdoDotNet.Controllers
 {
     public class EmployeeController : Controller
     {
         // GET: Employee/GetAllEmpDetails    
-        public ActionResult GetAllEmpDetails()
+        public ActionResult GetAllEmpDetails(int?i)
         {
 
             EmpRepository EmpRepo = new EmpRepository();
             ModelState.Clear();
-            return View(EmpRepo.GetAllEmployees());
+            return View(EmpRepo.GetAllEmployees().ToPagedList(i??1,10));
         }
         // GET: Employee/AddEmployee    
         public ActionResult AddEmployee()
@@ -40,7 +42,7 @@ namespace CRUDUsingMVCWithAdoDotNet.Controllers
                     }
                 }
 
-                return View();
+                return RedirectToAction("GetAllEmpDetails");
             }
             catch
             {
